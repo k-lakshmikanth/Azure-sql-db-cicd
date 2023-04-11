@@ -10,11 +10,11 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
+  
   BuildDacpac:
     # Easier to use Github-hosted runner if updating in GitHub
     # windows-2019 image works better at the moment
     runs-on: windows-2019
-
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
@@ -27,19 +27,29 @@ jobs:
       - name: Build Database project
         run: |
           msbuild.exe Azure-sql-db-cicd/Azure-sql-db-cicd/Azure-sql-db-cicd.sqlproj /p:Configuration=Release
-
+          ls ${{ github.workspace }}\bin\Release\ 
+      # Publish artifact
+      - uses: actions/upload-artifact@v3.1.2
+        with:
+          name: AzureSQLDB
+          path: ${{ github.workspace }}\bin\Release\ 
 
   # Deploy dacpac job
   DeployDacpac:
     # Set the dependency for the build job
+    runs-on: windows-2019
     needs: BuildDacpac
-    # Easier to use Github-hosted runner if updating in GitHub
-    runs-on: windows-latest
+    # Easier to use Github-hosted runner if updating in GitHu
 
     # Steps to deploy the updates to Azure SQL Database
     # To keep this example simple, the Firewall settings in the logical SQL Server allows access from Azure services and resources
     # An alternative is to use the Azure Login GitHub Action https://github.com/marketplace/actions/azure-login
     steps:    
+      - name: download artifact containing dacpac
+        # Downloads Data artifact to dacpac folder
+        uses: actions/download-artifact@v3.0.2
+        with:
+          name: AzureSQLDB
           
       # Login using Azure credentials 
       # Required to add a temporary firewall rule for the runner
