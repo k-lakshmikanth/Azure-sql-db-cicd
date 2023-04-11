@@ -27,7 +27,7 @@ jobs:
         run: |
             pwd
             $GITHUB_PATH
-            tree
+            dir
       # create dacpac using MSBUILD
       - name: Build Database project
         run: |
