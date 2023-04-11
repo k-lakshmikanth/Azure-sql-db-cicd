@@ -27,8 +27,8 @@ jobs:
       uses: actions/checkout@v2
     - name: setup-msbuild
       uses: microsoft/setup-msbuild@v1.1
-    - name: Build solution ${{ github.workspace }}\${{env.projectName}}\${{env.projectName }}.sqlproj
-      run: msbuild '${{ github.workspace }}\${{env.projectName}}\${{env.projectName }}.sqlproj' /t:build /p:CmdLineInMemoryStorage=True /p:OutputPath = ${{env.buildLocation }}
+    - name: Build solution ${{ github.workspace }}\${{env.projectName }}.sqlproj
+      run: msbuild '${{ github.workspace }}\${{env.projectName }}.sqlproj' /t:build /p:CmdLineInMemoryStorage=True /p:OutputPath = ${{env.buildLocation }}
     - name: 'Publish Artifact: drop'
       uses: actions/upload-artifact@v2
       with:
