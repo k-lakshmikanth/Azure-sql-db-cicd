@@ -23,10 +23,6 @@ jobs:
       - name: Add msbuild to PATH
         uses: microsoft/setup-msbuild@v1.3.1
         
-      - name: pwd
-        run: |
-            pwd
-            ls
       # create dacpac using MSBUILD
       - name: Build Database project
         run: |
@@ -35,7 +31,7 @@ jobs:
       - uses: actions/upload-artifact@v3.1.2
         with:
           name: Azure-sql-db-cicd
-          path: ${{ github.workspace }}/bin/Release/ 
+          path: ${{ github.workspace }}\bin\Release\ 
 
   # Deploy dacpac job
   DeployDacpac:
