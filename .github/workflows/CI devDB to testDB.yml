@@ -65,6 +65,6 @@ jobs:
           # The connection string, including authentication information, for the Azure SQL Database.
           connection-string: '${{ secrets.AZURESQLDB_CONNECTION_STRING }}'
           # Path to the dacpac file in the artifact
-          path: '${{ github.workspace }}\bin\Release\AzureSQLDB.dacpac'
+          path: './AzureSQLDB.dacpac'
           # Action we want it to do, in this case 'Publish' the contents of the dacpac to the database
           action: 'publish'
