@@ -3,9 +3,9 @@ run-name: CDH-CICD Azure SQL
 
 on:
   push:
-    paths:
-      - 'SqlProject/**'
-      - '**/cicd_pipeline_sql.yml'
+#   paths:
+#       - 'SqlProject/**'
+#       - '**/cicd_pipeline_sql.yml'
     branches:
     - dev
   workflow_dispatch:
@@ -54,13 +54,15 @@ jobs:
           path: ${{ env.projectName }}
 
 ######Start Login with secrete/spn #######
-
+      - uses: azure/login@v1.4.6
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
 ######End Login with secrete/spn #######
 
       - name: Apply Dacpac to ACC SQL Database
         uses: azure/sql-actions@v2
         with:
-          connection-string: 'Server=${{secrets.SQL_SER_ACC}}; User ID=${{secrets.SQL_DB_USER_ACC}}; Password=${{secrets.SQL_DB_SEC_ACC}};Initial Catalog=${{secrets.SQL_DB_ACC}}'
+          connection-string: 'Server=lksql.database.windows.net; User ID=sqladmin; Password=Azure$2023;Initial Catalog=test'
           path: ${{github.workspace}}/${{github.projectName}}/${{github.projectName}}.dacpac
           action: 'publish'
 
