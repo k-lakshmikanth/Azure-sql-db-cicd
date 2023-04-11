@@ -25,11 +25,11 @@ jobs:
       # create dacpac using MSBUILD
       - name: Build Database project
         run: |
-          msbuild.exe AzureSQLDB.sqlproj /p:Configuration=Release
+          msbuild.exe Azure-sql-db-cicd.sqlproj /p:Configuration=Release
       # Publish artifact
       - uses: actions/upload-artifact@v3.1.2
         with:
-          name: AzureSQLDB
+          name: Azure-sql-db-cicd
           path: ${{ github.workspace }}/bin/Release/ 
 
   # Deploy dacpac job
@@ -47,7 +47,7 @@ jobs:
         # Downloads Data artifact to dacpac folder
         uses: actions/download-artifact@v3.0.2
         with:
-          name: AzureSQLDB
+          name: Azure-sql-db-cicd
           
       # Login using Azure credentials 
       # Required to add a temporary firewall rule for the runner
