@@ -24,7 +24,10 @@ jobs:
         uses: microsoft/setup-msbuild@v1.3.1
         
       - name: pwd
-        run: pwd
+        run: |
+            pwd
+            $GITHUB_PATH
+            tree
       # create dacpac using MSBUILD
       - name: Build Database project
         run: |
