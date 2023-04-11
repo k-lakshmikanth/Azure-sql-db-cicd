@@ -32,7 +32,7 @@ jobs:
     - name: 'Publish Artifact: drop'
       uses: actions/upload-artifact@v2
       with:
-        name: ${{ env. projectName }}
+        name: ${{ env.projectName }}
         path: ${{ env.buildLocation }}
         
 ################## End: Build #######################
