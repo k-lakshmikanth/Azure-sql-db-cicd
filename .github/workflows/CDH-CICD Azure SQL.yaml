@@ -11,7 +11,7 @@ on:
   workflow_dispatch:
   
 env:
-  projectName: CDH_SQL_DB
+  projectName: Azure-sql-db-cicd
   buildLocation: ${{ github.workspace }}\build
 
 ################## Start: Build ####################### 
