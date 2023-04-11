@@ -22,7 +22,7 @@ jobs:
     runs-on: Windows-2019
     steps:
     - name: Create a build directory
-      run: mkdir $ {{github.workspace }}/build
+      run: mkdir ${{github.workspace}}/build
     - name: Checkout
       uses: actions/checkout@v2
     - name: setup-msbuild
