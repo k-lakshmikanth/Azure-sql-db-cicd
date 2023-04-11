@@ -1,0 +1,72 @@
+name: CDH-CICD Azure SQL
+run-name: CDH-CICD Azure SQL
+
+on:
+  push:
+    paths:
+      - 'SqlProject/**'
+      - '**/cicd_pipeline_sql.yml'
+    branches:
+    - dev
+  workflow_dispatch:
+  
+env:
+  projectName: CDH_SQL_DB
+  buildLocation: ${{ github.workspace }}\build
+
+################## Start: Build ####################### 
+ 
+jobs:
+  Build:
+    name: Build Stage
+    runs-on: Windows-2019
+    steps:
+    - name: Create a build directory
+      run: mkdir $ {{github.workspace }}/build
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name:setup-msbuild
+      uses: microsoft/setup-msbuild@v1.1
+    - name: Build solution ${{ github.workspace }}/${{ env.projectName }}/${{ env.projectName }}.sqlproj
+      run: msbuild '${{ github.workspace }}/${{env.projectName}}/${{env.projectName }}.sqlproj ' /t:build /p: CmdLineInMemoryStorage=True /p: OutputPath = ${{env.buildLocation }}
+    - name: 'Publish Artifact: drop'
+      uses: actions/upload-artifact@v2
+      with:
+        name: ${{ env. projectName }}
+        path: ${{ env.buildLocation }}
+        
+################## End: Build #######################
+
+
+################## Start: Deploy to ACC #####################
+
+  DeployAcc:
+    needs: [Build]
+    name: ACC Deploy
+    runs-on: ubuntu-latest
+    environment:
+      name: ACC
+    steps:
+      - name: 'Download Artifact'
+        uses: actions/download-artifact@v2
+        with:
+          name: ${{ env.projectName }}
+          path: ${{ env.projectName }}
+
+######Start Login with secrete/spn #######
+
+######End Login with secrete/spn #######
+
+      - name: Apply Dacpac to ACC SQL Database
+        uses: azure/sql-actions@v2
+        with:
+          connection-string: 'Server=${{secrets.SQL_SER_ACC}}; User ID=${{secrets.SQL_DB_USER_ACC}}; Password=${{secrets.SQL_DB_SEC_ACC}};Initial Catalog=${{secrets.SQL_DB_ACC}}'
+          path: ${{github.workspace}}/${{github.projectName}}/${{github.projectName}}.dacpac
+          action: 'publish'
+
+
+    
+
+
+
+################## End: Deploy to ACC #####################
