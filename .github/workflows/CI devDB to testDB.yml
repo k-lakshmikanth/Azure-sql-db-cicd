@@ -28,7 +28,7 @@ jobs:
       # create dacpac using MSBUILD
       - name: Build Database project
         run: |
-          msbuild.exe ./Azure-sql-db-cicd/Azure-sql-db-cicd/Azure-sql-db-cicd/Azure-sql-db-cicd.sqlproj /p:Configuration=Release
+          msbuild.exe ./Azure-sql-db-cicd/Azure-sql-db-cicd.sqlproj /p:Configuration=Release
       # Publish artifact
       - uses: actions/upload-artifact@v3.1.2
         with:
