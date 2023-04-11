@@ -27,7 +27,6 @@ jobs:
       - name: Build Database project
         run: |
           msbuild.exe Azure-sql-db-cicd/Azure-sql-db-cicd/Azure-sql-db-cicd.sqlproj /p:Configuration=Release
-          ls ${{ github.workspace }}\bin\Release\ 
       # Publish artifact
       - uses: actions/upload-artifact@v3.1.2
         with:
