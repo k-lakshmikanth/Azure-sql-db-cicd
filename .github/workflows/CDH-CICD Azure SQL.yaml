@@ -69,7 +69,7 @@ jobs:
         uses: azure/sql-action@v2
         with:
           connection-string: 'Server=lksql.database.windows.net; User ID=sqladmin; Password=Azure$2023;Initial Catalog=test'
-          path: ${{github.workspace}}/${{github.projectName}}/${{github.projectName}}.dacpac
+          path: ${{github.workspace}}/${{env.projectName}}/${{env.projectName}}.dacpac
           action: 'publish'
 
 
