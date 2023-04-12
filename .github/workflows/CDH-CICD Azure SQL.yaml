@@ -30,8 +30,7 @@ jobs:
       
     - name: pwd
       run: |
-        pwd
-        tree
+        tree ${{ github.workspace }}
       
       
     - name: Build solution ${{ github.workspace }}\${{ env.projectName }}.sqlproj
