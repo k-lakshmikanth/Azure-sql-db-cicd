@@ -66,7 +66,7 @@ jobs:
 ######End Login with secrete/spn #######
 
       - name: Apply Dacpac to ACC SQL Database
-        uses: azure/sql-actions@v2
+        uses: azure/sql-action@v2
         with:
           connection-string: 'Server=lksql.database.windows.net; User ID=sqladmin; Password=Azure$2023;Initial Catalog=test'
           path: ${{github.workspace}}/${{github.projectName}}/${{github.projectName}}.dacpac
